@@ -3,26 +3,47 @@ const {
   disconnectClient,
   generateAndFundWallet,
 } = require("./wallet");
+const { createTrustLine, mintToken, transferToken } = require("./token");
 
 async function main() {
   try {
-    // Create and connect the client
+    // Create XRPL client
     const client = await createClient();
 
-    // Generate and fund the first wallet
-    const wallet1 = await generateAndFundWallet(client);
-    console.log("First wallet info:", wallet1);
-    console.log("First wallet address:", wallet1.address);
+    // Generate and fund the issuer (A) and recipient (B) wallets
+    const issuerWallet = await generateAndFundWallet(client);
+    const recipientWallet = await generateAndFundWallet(client);
 
-    // Generate and fund the second wallet
-    const wallet2 = await generateAndFundWallet(client);
-    console.log("Second wallet info:", wallet2);
-    console.log("Second wallet address:", wallet2.address);
+    // Define the token
+    const currency = "CAT";
+    const amountToMint = "10";
 
-    // Disconnect the client
+    // Create trust line for CAT token
+    await createTrustLine(client, issuerWallet, recipientWallet, currency);
+
+    // Mint CAT tokens
+    await mintToken(
+      client,
+      issuerWallet,
+      recipientWallet,
+      currency,
+      amountToMint
+    );
+
+    // Transfer CAT tokens
+    const transferAmount = "5";
+    await transferToken(
+      client,
+      issuerWallet,
+      recipientWallet,
+      currency,
+      transferAmount
+    );
+
+    console.log("Issuer wallet address:", issuerWallet.address);
+    console.log("Recipient wallet address:", recipientWallet.address);
+
     await disconnectClient(client);
-
-    console.log("Script completed successfully.");
   } catch (error) {
     console.error("An error occurred:", error);
   }
