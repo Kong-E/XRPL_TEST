@@ -1,6 +1,9 @@
 from xrpl.wallet import Wallet, generate_faucet_wallet
 from xrpl.clients import JsonRpcClient
 from xrpl.models.requests import ServerInfo
+from xrpl.models.transactions import TrustSet
+from xrpl.models.currencies import IssuedCurrency
+from xrpl.models.requests import AccountLines
 
 '''
 `JsonRpcClient(TESTNET_URL)`는 JSON-RPC(JSON Remote Procedure Call) 클라이언트를 생성하는 코드
@@ -28,5 +31,5 @@ print("지갑 정보 : ", wallet.__dict__)
 
 print("지갑 주소 : ", wallet.address)
 
-# #추후에 사용할 지갑 1개 생성
-# dest_wallet = generate_faucet_wallet(client)
+# 추후에 사용할 지갑 1개 생성
+dest_wallet = generate_faucet_wallet(client)
