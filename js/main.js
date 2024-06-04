@@ -4,13 +4,14 @@ const {
   generateAndFundWallet,
 } = require("./wallet");
 const { createTrustLine, mintToken, transferToken } = require("./token");
+const { getTransaction } = require("./transaction");
 
 async function main() {
   try {
     // Create XRPL client
     const client = await createClient();
 
-    // Generate and fund the issuer (A) and recipient (B) wallets
+    /* // Generate and fund the issuer (A) and recipient (B) wallets
     const issuerWallet = await generateAndFundWallet(client);
     const recipientWallet = await generateAndFundWallet(client);
 
@@ -31,7 +32,7 @@ async function main() {
     );
 
     // Transfer CAT tokens
-    const transferAmount = "5";
+    const transferAmount = "11";
     await transferToken(
       client,
       issuerWallet,
@@ -43,7 +44,11 @@ async function main() {
     console.log("Issuer wallet address:", issuerWallet.address);
     console.log("Recipient wallet address:", recipientWallet.address);
 
-    await disconnectClient(client);
+    await disconnectClient(client); */
+    await getTransaction(
+      client,
+      "ECC0BD3C798D5E13192807FE250422E7D43559F1AE5A40A7E18081FF903ED3CB"
+    );
   } catch (error) {
     console.error("An error occurred:", error);
   }
